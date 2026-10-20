@@ -383,7 +383,7 @@ function timeline(ctx, t) {
   if (!L.on) return;
   ctx.save(); ctx.globalAlpha = L.alpha; ctx.translate(0, (1 - L.k) * 60 - L.out * 200);
   sectionHead(ctx, t, 7.6, 'DURANTE O', 'PROCESSO');
-  const x0 = 180, x1 = 900, y = 800;
+  const x0 = 250, x1 = 830, y = 800;
   ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.lineWidth = 10; ctx.lineCap = 'round'; ctx.strokeStyle = C.line; ctx.stroke();
   const pr = E.inOutCubic(prog(t, 7.9, 9.6));
   ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(lerp(x0, x1, pr), y); ctx.strokeStyle = C.red; ctx.stroke();
