@@ -13,7 +13,7 @@ const sp = (t, t0, cfg = SPRING.snappy) => spring(t - t0, cfg);       // spring 
 // ------------------------------------------------------------------ timeline (seconds)
 const CARD = { x: 70, y: 830, w: 940, h: 900, r: 46 };
 const T = {
-  shrink: 1.45, c2: 7.5, c3: 24.4, c4: 34.7, wipe1: 41.35, c5: 41.35, wipe2: 47.5, end: 47.5,
+  shrink: 1.45, c2: 7.5, c3: 24.4, c4: 34.7, wipe1: 41.35, c5: 41.35, wipe2: 45.0, end: 45.0,
 };
 // [seconds, label, sfx, opts]: converted to beats in init() so sfx.mjs voices every accent
 const HITS_S = [
@@ -52,9 +52,9 @@ const HITS_S = [
   [42.15, 'tap seguir', 'click'],
   [42.3, 'seguindo', 'bell', { pitch: 'A5' }],
   [42.93, 'chips', 'blip', { pitch: 'D6' }],
-  [44.6, 'posts', 'whoosh', { len: 0.35, from: 700, to: 2400 }],
-  [47.5, 'end card', 'impact'],
-  [48.0, 'logo', 'bell', { pitch: 'F6' }],
+  [43.75, 'posts', 'whoosh', { len: 0.35, from: 700, to: 2400 }],
+  [45.0, 'end card', 'impact'],
+  [45.5, 'logo', 'bell', { pitch: 'F6' }],
 ];
 const HITS = HITS_S.map((h) => h.slice());
 
@@ -619,9 +619,9 @@ function stageAdvogada(ctx, t) {
   ctx.restore();
 }
 
-// ------------------------------------------------------------------ S5 (41.35 - 47.5)
+// ------------------------------------------------------------------ S5 (41.35 - 45.0)
 function stageSiga(ctx, t, IMG) {
-  const k = sp(t, 41.5, SPRING.snappy), postsK = sp(t, 44.6, SPRING.gentle);
+  const k = sp(t, 41.5, SPRING.snappy), postsK = sp(t, 43.75, SPRING.gentle);
   ctx.save(); ctx.translate(0, (1 - k) * 200 - postsK * 900); ctx.globalAlpha = clamp(k * 2);
   // profile row
   card(ctx, 90, 330, 900, 210, 36);
@@ -664,7 +664,7 @@ function stageSiga(ctx, t, IMG) {
   // real brand posts slide in (from the identity board)
   if (postsK > 0 && IMG.postA) {
     [[IMG.postA, 300, -0.05, 0], [IMG.postB, 780, 0.05, 0.12]].forEach(([im, cx2, rot, d]) => {
-      const kk = sp(t, 44.6 + d, SPRING.snappy);
+      const kk = sp(t, 43.75 + d, SPRING.snappy);
       const w = 400, h = w * im.height / im.width;
       const fl = 6 * Math.sin((t + d * 10) * 1.6);
       ctx.save(); ctx.translate(cx2, 600 + (1 - kk) * 700 + fl); ctx.rotate(rot * kk);
@@ -698,8 +698,10 @@ function arcWipe(ctx, t, tc) {
   ctx.restore();
 }
 
-// ------------------------------------------------------------------ end card (47.5 - 50)
+// ------------------------------------------------------------------ end card (45.0 - 47.5)
+// The card's keys were laid out from 47.5; shift local time so they follow T.end.
 function endCard(ctx, t, IMG) {
+  t += 47.5 - T.end;
   fill(ctx, C.rose);
   arcs(ctx, W + 160, H + 120, 620 * sp(t, 47.5, SPRING.gentle), 2.4 + (t - 47.5) * 0.08, 1);
   arcs(ctx, -120, 160, 400 * sp(t, 47.6, SPRING.gentle), -0.4 - (t - 47.5) * 0.06, 0.6, ['#F7C6CB', C.red, '#FBDDE0']);
@@ -764,7 +766,7 @@ function draw(ctx, u, t, IMG) {
     let z = 1.0 + 0.03 * Math.sin(t * 0.35);                         // slow breathing push
     if (t < T.shrink) z = 1 + 0.06 * (t / T.shrink);                     // hook push-in
     z *= 1 + 0.06 * Math.max(0, wobble(t - 34.7, 1.2, 4)) + 0.05 * Math.max(0, wobble(t - 24.4, 1.2, 4));
-    if (t >= 41.35) z *= 1 + 0.08 * E.inOutCubic(prog(t, 41.4, 47.4));
+    if (t >= 41.35) z *= 1 + 0.08 * E.inOutCubic(prog(t, 41.4, T.end));
     presenter(ctx, t, R, z * 1.12, IMG);
   }
   tag(ctx, t, cur[1], cur[0] + (cur[0] === 0 ? -1 : 0.05));

@@ -5,7 +5,7 @@
 """Presenter clips -> graded JPEG frames with the room softened behind her.
 
 Each clip is trimmed to its spoken range, segmented (MediaPipe selfie, temporally smoothed),
-and the background is blurred and washed toward the brand rose so the wall art recedes.
+and the room behind her is replaced by a brand backdrop (rose light, Ensino Plus arcs).
     uv run tools/prep_video.py   ->  media/frames/<clip>/0001.jpg ... (30 fps, 1080x1920)
 """
 import json, subprocess, sys
@@ -16,7 +16,28 @@ from PIL import Image, ImageFilter
 ROOT = Path(__file__).resolve().parent.parent
 CLIPS = json.load(open(ROOT / "edit.json"))["clips"]
 W, H, FPS = 1080, 1920, 30
-ROSE = np.array([252, 234, 236], np.float32)
+def backdrop():
+    """Soft rose studio light with the identity board's concentric arcs peeking out beside her."""
+    y, x = np.mgrid[0:H, 0:W].astype(np.float32)
+    top, bot = np.array([255, 247, 248], np.float32), np.array([248, 214, 220], np.float32)
+    g = top + (bot - top) * (y / H)[..., None]
+    glow = np.exp(-(((x - 540) / 620) ** 2 + ((y - 900) / 760) ** 2))[..., None]
+    img = g * (1 - glow * 0.7) + np.array([255, 252, 252], np.float32) * glow * 0.7
+    def ring(cx, cy, r, w, color, a, a0, a1):
+        d = np.hypot(x - cx, y - cy); ang = np.arctan2(y - cy, x - cx)
+        m = np.clip(1 - np.abs(d - r) / (w / 2), 0, 1) ** 0.25 * ((ang > a0) & (ang < a1))
+        return m[..., None] * a, np.array(color, np.float32)
+    for args in [(1170, 1050, 470, 60, (244, 190, 198), 0.5, -3.2, 3.2),
+                 (1170, 1050, 370, 60, (251, 225, 229), 0.6, -3.2, 3.2),
+                 (1170, 1050, 270, 60, (229, 0, 3), 0.14, -3.2, 3.2),
+                 (-60, 560, 330, 50, (244, 190, 198), 0.45, -3.2, 3.2),
+                 (-60, 560, 240, 50, (229, 0, 3), 0.12, -3.2, 3.2)]:
+        m, c = ring(*args)
+        img = img * (1 - m) + c * m
+    im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))
+    return np.asarray(im, np.float32)
+
+BG = backdrop()
 
 def grade(a):
     a = a.astype(np.float32) / 255
@@ -41,12 +62,10 @@ for name, c in CLIPS.items():
         fr = np.frombuffer(buf, np.uint8).reshape(H, W, 3)
         m = seg.process(fr).segmentation_mask.astype(np.float32)
         ema = m if ema is None else ema * 0.55 + m * 0.45          # steady edges, no flicker
-        mk = Image.fromarray((np.clip((ema - 0.15) / 0.7, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(5))
+        mk = Image.fromarray((np.clip((ema - 0.3) / 0.5, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(6))
         mk = np.asarray(mk, np.float32)[..., None] / 255
         g = grade(fr)
-        bg = np.asarray(Image.fromarray(g.astype(np.uint8)).resize((W // 4, H // 4)).filter(ImageFilter.GaussianBlur(9)).resize((W, H), Image.BILINEAR), np.float32)
-        bg = bg * 0.5 + ROSE * 0.5
-        o = g * mk + bg * (1 - mk)
+        o = g * mk + BG * (1 - mk)
         i += 1
         Image.fromarray(o.astype(np.uint8)).save(out / f"{i:04d}.jpg", quality=88)
     p.wait()

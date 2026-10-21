@@ -4,12 +4,12 @@
 # ///
 """Outubro Rosa score: hopeful, warm, never in the voice's way.
 
-96 bpm, 4/4, bar = 2.5 s, F major, I-V-vi-IV (F C Dm Bb). 20 bars = 50 s.
+96 bpm, 4/4, bar = 2.5 s, F major, I-V-vi-IV (F C Dm Bb). 19 bars = 47.5 s.
   bars 0-2   (0-7.5 s)    hook: electric piano + soft pad, no drums
   bars 3-9   (7.5-25 s)   narration: soft kick on 1 and 3, shaker, sub on the root
   bars 10-15 (25-40 s)    rights: full pulse, offbeat hats, bass eighths, arpeggio plucks
-  bars 16-18 (40-47.5 s)  CTA lift: light claps, pad opens
-  bar 19     (47.5-50 s)  end card: resolve on F add9, crash, tail
+  bars 16-17 (40-45 s)    CTA lift: light claps, pad opens
+  bar 18     (45-47.5 s)  end card: resolve on F add9, crash, tail
     MOTION_REEL_SKILL=<skill> uv run outubro-rosa/audio/score.py
 """
 import json, os, sys
@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(os.environ["MOTION_REEL_SKILL"]) / "scripts"))
 from dsp import SR, Bus, bass_note, clap, crash, hat, keys, kick, measure_beats, pad_chord, pluck, reverb, sidechain, sub_drop  # noqa: E402
 
 FILM = Path(__file__).resolve().parent.parent
-BPM, BARS = 96, 20
+BPM, BARS = 96, 19
 DUR = BARS * 4 * 60 / BPM
 PROG = [(["F3", "A3", "C4", "E4"], "F2"), (["C3", "G3", "C4", "E4"], "C2"),
         (["D3", "F3", "A3", "C4"], "D2"), (["Bb2", "F3", "A3", "D4"], "Bb1")]
