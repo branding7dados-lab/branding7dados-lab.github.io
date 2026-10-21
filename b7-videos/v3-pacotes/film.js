@@ -166,7 +166,7 @@ function s4(ctx, u, IMG, bg = true) {
   if (bg) B.bgDark(ctx, u, 23);
   B.words(ctx, u, [
     { size: 80, weight: 700, words: [['para', 8.06], ['sua', 8.48], ['marca', 8.68]] },
-    { size: 112, weight: 800, words: [['chamar', 8.96, 'g'], ['atenção', 9.48, 'g']] },
+    { size: 98, weight: 800, words: [['chamar', 8.96, 'g'], ['atenção', 9.48, 'g']] },
     { size: 80, weight: 700, words: [['e', 9.84], ['alcançar', 10.24]] },
     { size: 80, weight: 800, words: [['mais', 10.76, 'm'], ['pessoas.', 11.12, 'm']] },
   ], { x: SX, y: 330, lineGap: 1.1 });
