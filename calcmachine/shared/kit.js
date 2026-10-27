@@ -12,7 +12,7 @@ export const C = {
 };
 export const D = 'Display', UI = 'UI';
 export const sp = (t, t0, cfg = SPRING.snappy) => spring(t - t0, cfg);
-export const CARD = { x: 70, y: 830, w: 940, h: 900, r: 44 };
+export const CARD = { x: 70, y: 895, w: 940, h: 830, r: 44 };
 
 // ------------------------------------------------------------------ words + timeline helpers
 export const STATE = { words: [], chunks: [], edit: null, clip: '' };
@@ -152,7 +152,7 @@ export function presenter(ctx, t, R, zoom) {
   ctx.save(); rrect(ctx, x, y, w, h, r); ctx.clip();
   if (im) {
     const s = Math.max(w / im.width, h / im.height) * zoom;
-    const full = clamp((1920 - h) / 1020);                 // 0 full frame .. 1 card
+    const full = clamp((1920 - h) / (1920 - CARD.h));                 // 0 full frame .. 1 card
     const fy = lerp(960, 770, full), py = lerp(0.5, 0.4, full);      // eyes on the upper third
     const dw = im.width * s, dh = im.height * s;
     const dx = x + w / 2 - 540 * s, dy = Math.min(y, Math.max(y + h * py - fy * s, y + h - dh));
@@ -523,8 +523,8 @@ export function run(spec) {
       const end = STATE.edit.end_card;
       if (t >= end) { endCard(ctx, t, end, IMG, spec.endLine); pushThrough(ctx, t, end); return; }
       background(ctx, t);
-      // stage plays 18% larger, anchored under the tag
-      ctx.save(); ctx.translate(540, 310); ctx.scale(1.18, 1.18); ctx.translate(-540, -310);
+      // stage plays 10% larger, anchored under the tag
+      ctx.save(); ctx.translate(540, 310); ctx.scale(1.1, 1.1); ctx.translate(-540, -310);
       spec.stage(ctx, t, IMG);
       ctx.restore();
       const R = cardRect(t, spec.shrinkAt);
@@ -532,7 +532,8 @@ export function run(spec) {
       presenter(ctx, t, R, z);
       spec.over?.(ctx, t, IMG);
       tag(ctx, t, spec.tagAt(t), -1, IMG);
-      captions(ctx, t);
+      // captions ride with the card: on his chest at full frame, then in their own band above the card
+      captions(ctx, t, lerp(1462, CARD.y - 44, clamp(sp(t, spec.shrinkAt, SPRING.gentle))));
       pushThrough(ctx, t, end);
     },
   });

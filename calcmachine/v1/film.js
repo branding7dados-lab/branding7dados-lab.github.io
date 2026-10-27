@@ -19,7 +19,7 @@ run({
   stage(ctx, t, IMG) {
     brandReveal(ctx, t, IMG, { t0: 1.25, t1: T.claude - 0.35, tName: T.calc, labelText: 'VOCÊ JÁ PENSOU EM USAR O', tLabel: 1.3 });
     hub(ctx, t, { t0: T.claude - 0.4, t1: T.gerando - 0.1, chips: [['Claude', T.claude], ['ChatGPT', T.chat], ['Gemini', T.gem]], sub: ['com a SUA assinatura', T.assin] });
-    pjcFile(ctx, t, { t0: T.gerando, t1: T.calc2 - 0.2, tPjc: T.pjc, tSys: T.sys, tAuto: T.auto, cy: 540 });
+    pjcFile(ctx, t, { t0: T.gerando, t1: T.calc2 - 0.2, tPjc: T.pjc, tSys: T.sys, tAuto: T.auto, cy: 495 });
     brandReveal(ctx, t, IMG, { t0: T.calc2 - 0.35, t1: T.pois - 0.05, tName: T.calc2, labelText: 'COM O', tLabel: T.calc2 - 0.3 });
     statement(ctx, t, { t0: T.pois - 0.05, t1: T.vou - 0.05, small: 'POIS É, ISSO AGORA É', tSmall: T.pois, big: 'POSSÍVEL.', tBig: T.poss, flareAt: T.poss + 0.1, cy: 600 });
     if (t >= T.vou - 0.1) {
