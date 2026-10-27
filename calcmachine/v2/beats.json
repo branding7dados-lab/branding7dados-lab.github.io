@@ -71,7 +71,7 @@
   },
   {
    "name": "end",
-   "beat": 39.92
+   "beat": 39.998
   }
  ],
  "source": "tools/score.py E minor 120 bpm"

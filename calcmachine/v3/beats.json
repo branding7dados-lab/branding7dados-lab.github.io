@@ -80,7 +80,7 @@
   },
   {
    "name": "end",
-   "beat": 46.92
+   "beat": 47.306
   }
  ],
  "source": "tools/score.py C minor 120 bpm"

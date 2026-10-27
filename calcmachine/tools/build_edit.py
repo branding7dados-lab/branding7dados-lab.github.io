@@ -6,8 +6,8 @@
 
 Cuts are placed in measured silence only: the head starts 0.22 s before the first voiced frame,
 the tail ends 0.45 s after the last, and an inner pause is removed only between its own silent
-edges (80 ms kept on each side), so no word is clipped. Whisper's word times are warped onto the
-measured speech span (its first word tends to start early in leading silence).
+edges (80 ms kept on each side), so no word is clipped. Words come from tools/align_fa.py (forced
+alignment); unaligned Whisper times are warped onto the measured speech span instead.
     uv run tools/build_edit.py [v1 v2 ...] [--no-frames]
 """
 import json, re, subprocess, sys
@@ -18,7 +18,7 @@ from scipy.signal import butter, sosfiltfilt
 ROOT = Path(__file__).resolve().parent.parent
 END_CARD = 2.6
 # inner pauses to remove, in source seconds (measured silence edges, -38 dB, 120 Hz high-pass)
-PAUSES = {"v3": [(11.19, 11.69), (21.80, 22.25)]}
+PAUSES = {"v3": [(11.28, 11.70), (21.80, 22.25)]}
 FIX = [  # caption spelling: brands and products as they are written
     (r"^Cloud([,.?!]?)$", r"Claude\1"), (r"^Calg$", "Calc"), (r"^Connector$", "Connect"),
     (r"^PJC$", ".PJC"), (r"^CalcMachine([,.?!]?)$", r"Calc Machine\1"),
@@ -58,6 +58,8 @@ def build(v, frames=True):
     d = ROOT / v
     raw = json.load(open(d / "words_raw.json"))["words"]
     s0, s1, dur = speech_span(d / "media" / "a16k.wav")
+    raw0 = json.load(open(d / "words_raw.json"))
+    s0 = min(s0, raw[0]["t0"]); s1 = max(s1, raw[-1]["t1"]) if raw0.get("aligned") else s1
     t_in, t_out = max(0.0, s0 - 0.22), min(dur, s1 + 0.45)
     cuts = [(a + 0.08, b - 0.08) for a, b in PAUSES.get(v, [])]
     segs, a = [], t_in
@@ -66,7 +68,8 @@ def build(v, frames=True):
     talk = sum(b - a for a, b in segs)
     # warp whisper onto the measured span, then onto film time
     w0, w1 = raw[0]["t0"], raw[-1]["t1"]
-    warp = lambda t: s0 + (t - w0) * (s1 - s0) / (w1 - w0)
+    # forced-aligned words are already on the audio; Whisper's own times get warped onto the span
+    warp = (lambda t: t) if raw0.get("aligned") else (lambda t: s0 + (t - w0) * (s1 - s0) / (w1 - w0))
     words = [{"w": w["w"], "t0": round(to_film(warp(w["t0"]), segs), 3), "t1": round(to_film(warp(w["t1"]), segs), 3)} for w in fix_words(raw)]
     edit = {"segments": segs, "talk": round(talk, 3), "end_card": round(talk, 3), "duration": round(talk + END_CARD, 3),
             "speech_src": [s0, s1], "cuts_film": [round(to_film(c1, segs), 3) for _, c1 in cuts]}

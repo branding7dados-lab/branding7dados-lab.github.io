@@ -31,4 +31,6 @@ rgb = ens[..., :3].astype(int)
 blackish = (rgb.max(2) < 110)                      # the black "ensino"; red stays red
 ens[..., :3] = np.where(blackish[..., None], CREAM, ens[..., :3])
 Image.fromarray(trim(ens)).save(OUT / "ensino_logo_dark.png")
+white = ens.copy(); white[..., :3] = 255                    # all-white version for the dark films
+Image.fromarray(trim(white)).save(OUT / "ensino_logo_white.png")
 for f in sorted(OUT.glob("*.png")): print(f.name, Image.open(f).size)

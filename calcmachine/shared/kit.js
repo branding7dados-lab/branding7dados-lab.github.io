@@ -191,31 +191,35 @@ export function buildCaptions(words, talkEnd) {
   });
   return chunks;
 }
-const KEY = /^(calc|machine|claude|chatgpt|gpt|gemini|pje-calc|\.pjc|ilimitad|automática|possível|impressionad|sensacional|impressionante|fixo|fgts|contracheque|cartão|ponto|connect|inteligência|artificial|fantástica|assinatura|agora)/;
+// Captions: the phrase lands whole (one move, not word by word); the word being spoken turns orange.
 export function captions(ctx, t, y = 1462) {
   const c = STATE.chunks.find((c) => t >= c.t0 && t < c.t1);
   if (!c) return;
-  const size = 70, f = font(size, 700, D), gap = 20;
+  const size = 68, f = font(size, 700, D), gap = 18;
   const ws = c.words.map((w) => ({ ...w, width: layout(ctx, w.w, f, -1).width }));
   const total = ws.reduce((a, w) => a + w.width, 0) + gap * (ws.length - 1);
-  const s = Math.min(1, 860 / total);
-  let x = W / 2 - (total * s) / 2;
-  const out = E.inCubic(prog(t, c.t1 - 0.1, c.t1));
-  ws.forEach((w) => {
-    const k = sp(t, w.t0 - 0.04, SPRING.bouncy);
-    if (k > 0) {
-      const key = KEY.test(w.w.toLowerCase());
-      const cx = x + (w.width * s) / 2;
-      ctx.save(); ctx.translate(cx, y + (1 - k) * 24 - out * 16); ctx.scale(s * (0.75 + 0.25 * k), s * (0.75 + 0.25 * k));
-      ctx.globalAlpha = clamp(k * 2) * (1 - out);
-      if (key) { rrect(ctx, -w.width / 2 - 14, -size * 0.8, w.width + 28, size * 1.04, 14); ctx.fillStyle = C.orange; ctx.fill(); }
-      ctx.font = f; ctx.textAlign = 'center'; ctx.letterSpacing = '-1px';
-      if (!key) { ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 4; }
-      ctx.fillStyle = C.cream; ctx.fillText(w.w, 0, 0); ctx.letterSpacing = '0px';
-      ctx.restore();
-    }
-    x += (w.width + gap) * s;
+  const s = Math.min(1, 880 / total);
+  const k = sp(t, c.t0, SPRING.snappy), out = E.inCubic(prog(t, c.t1 - 0.08, c.t1));
+  ctx.save();
+  ctx.translate(W / 2, y + (1 - k) * 18); ctx.scale(s * (0.94 + 0.06 * k), s * (0.94 + 0.06 * k));
+  ctx.globalAlpha = clamp(k * 2.5) * (1 - out);
+  ctx.font = f; ctx.textAlign = 'center'; ctx.letterSpacing = '-1px'; ctx.lineJoin = 'round';
+  // exactly one word is lit: the last one that has started
+  let lit = -1; ws.forEach((w, i) => { if (t >= w.t0 - 0.03) lit = i; });
+  let x = -total / 2;
+  ws.forEach((w, i) => {
+    const cx = x + w.width / 2;
+    const active = i === lit && t < w.t1 + 0.12, done = i < lit || (i === lit && !active);
+    ctx.save(); ctx.translate(cx, 0);
+    ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(8,16,13,0.55)'; ctx.strokeText(w.w, 0, 0);
+    ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
+    ctx.fillStyle = active ? C.orange : done ? C.cream : 'rgba(242,240,232,0.92)';
+    ctx.fillText(w.w, 0, 0);
+    ctx.restore();
+    x += w.width + gap;
   });
+  ctx.letterSpacing = '0px';
+  ctx.restore();
 }
 
 // ------------------------------------------------------------------ kinetic type
@@ -502,7 +506,7 @@ export function run(spec) {
   const HITS = spec.hits.map((h) => h.slice());
   M.film({
     fonts: [font(100, 700, D), font(100, 500, D), font(40, 600, UI), font(40, 700, UI)],
-    images: { word: '../shared/assets/calc_word.png', connect: '../shared/assets/calc_connect.png', ensino: '../shared/assets/ensino_logo_dark.png' },
+    images: { word: '../shared/assets/calc_word.png', connect: '../shared/assets/calc_connect.png', ensino: '../shared/assets/ensino_logo_white.png' },
     hits: HITS,
     samples: () => 8,
     async init() {
