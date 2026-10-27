@@ -31,7 +31,7 @@ run({
     statement(ctx, t, { t0: T.util - 0.1, t1: T.dentro - 0.1, small: 'PARA O PJe-CALC, UTILIZANDO', tSmall: T.util, big: 'INTELIGÊNCIA', tBig: T.ia, accent: 'ARTIFICIAL', tAccent: T.ia + 0.6, cy: 500, flareAt: T.ia + 0.7 });
     hub(ctx, t, { t0: T.dentro - 0.1, t1: T.entao - 0.1, chips: [['Claude', T.claude], ['GPT', T.gpt], ['Gemini', T.gem]], sub: ['a SUA IA preferida', T.pref] });
     statement(ctx, t, { t0: T.entao - 0.05, t1: T.conheca - 0.1, small: 'ENTÃO, ISSO AGORA É', tSmall: T.entao, big: 'POSSÍVEL!', tBig: T.poss, flareAt: T.poss + 0.1, cy: 560 });
-    brandReveal(ctx, t, IMG, { t0: T.conheca - 0.1, t1: T.faca - 0.1, tName: T.cm, labelText: 'CONHEÇA O', tLabel: T.conheca, connect: true, cy: 520 });
+    brandReveal(ctx, t, IMG, { t0: T.conheca - 0.1, t1: T.faca - 0.1, tName: T.cm, labelText: 'CONHEÇA O', tLabel: T.conheca, connect: true, cy: 500 });
     if (t >= T.faca - 0.15) {
       label(ctx, t, 'FAÇA ISSO', 400, T.faca);
       symbol(ctx, 540, 520, 110, M.E.inOutCubic(M.prog(t, T.faca, T.faca + 0.5)), sp(t, T.faca + 0.4, M.SPRING.bouncy));

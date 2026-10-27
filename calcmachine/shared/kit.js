@@ -545,11 +545,11 @@ export function brandReveal(ctx, t, IMG, { t0, t1, tName, cy = 560, labelText = 
   const L = life(t, t0, t1);
   if (!L.on) return;
   ctx.save(); ctx.globalAlpha = L.alpha; ctx.translate(0, (1 - L.k) * 40 - L.out * 140);
-  if (labelText) label(ctx, t, labelText, cy - 180, tLabel ?? t0);
+  if (labelText) label(ctx, t, labelText, cy - 165, tLabel ?? t0);
   const d = E.inOutCubic(prog(t, tName - 0.35, tName + 0.25)), pl = sp(t, tName + 0.15, SPRING.bouncy);
-  symbol(ctx, 540, cy - 20, 170, d, pl);
-  flare(ctx, t, tName + 0.2, cy - 20);
-  wordmark(ctx, IMG, 540, cy + 150, 92, E.inOutCubic(prog(t, tName, tName + 0.45)), connect ? clamp((t - tName - 0.4) / 0.4) : 0);
+  symbol(ctx, 540, cy - 40, 160, d, pl);
+  flare(ctx, t, tName + 0.2, cy - 40);
+  wordmark(ctx, IMG, 540, cy + 115, 78, E.inOutCubic(prog(t, tName, tName + 0.45)), connect ? clamp((t - tName - 0.4) / 0.4) : 0);
   ctx.restore();
 }
 // label + one big line (+ optional accent line)
