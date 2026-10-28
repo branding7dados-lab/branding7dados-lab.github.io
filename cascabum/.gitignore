@@ -1,3 +1,4 @@
 media/
 entrega/
-audio/*.wav
+audio/
+events.json
