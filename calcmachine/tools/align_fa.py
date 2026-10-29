@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np, soundfile as sf, torch, torchaudio
 
 ROOT = Path(__file__).resolve().parent.parent
-SPOKEN = {"pjc": "pe jota ce", "pje": "pe jota e", "pj": "pe jota", "gpt": "ge pe te", "fgts": "efe ge te esse", "cloud": "cloud",
+SPOKEN = {"pjc": "pe jota ce", "pje-calc": "pe jota e calc", "claude": "cloud", "pdf": "pe de efe", "contracheque": "contra cheque", "pje": "pe jota e", "pj": "pe jota", "gpt": "ge pe te", "fgts": "efe ge te esse", "cloud": "cloud",
           "calcmachine": "calc machine", "-cheque": "cheque"}
 bundle = torchaudio.pipelines.MMS_FA
 model = bundle.get_model(); tok = bundle.get_tokenizer(); aligner = bundle.get_aligner()
@@ -28,7 +28,7 @@ def norm(w):
     w = unicodedata.normalize("NFKD", w).encode("ascii", "ignore").decode()
     return [p for p in re.sub(r"[^a-z ]", " ", w).split() if p]
 
-for v in sorted(ROOT.glob("v[0-9]")):
+for v in [ROOT / a for a in sys.argv[1:]] or sorted(ROOT.glob("v[0-9]")):
     data = json.load(open(v / "words_raw.json")); words = data["words"]
     x, sr = sf.read(v / "media" / "a16k.wav", dtype="float32")
     wav = torch.from_numpy(x)[None]
