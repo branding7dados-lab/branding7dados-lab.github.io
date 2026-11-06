@@ -69,7 +69,7 @@ const toScreen = (c, x, y) => [W / 2 + (x - c.cx) * c.z + c.sx, H / 2 + (y - c.c
 
 // ---------------------------------------------------------------- background plate
 let BG = null;   // the current frame of the graded, slowed runners plate (set by prepare)
-const NFRAMES = 897;
+const NFRAMES = 889;
 const bgCache = new Map();
 async function prepare(t) {
   const i = clamp(Math.round(t * 60), 0, NFRAMES - 1);
