@@ -1,0 +1,21 @@
+# V1 · "Estratégia": shot list
+28 s · 120 bpm (beat = 0,5 s) · 56 beats · formato 9:16 (1080×1920)
+Trilha: house sintetizado, Lá dórico; intro (beats 0–23) e drop no beat 24 (12,0 s), logo depois de "é estratégia" · Narração: `audio/vo/narracao.mp3` (V1.mp3), no tempo original
+
+| # | beats | tempo | narração | na tela (asset) | movimento | saída | som |
+|---|---|---|---|---|---|---|---|
+| 1 | 0–4,5 | 0,0–2,3 | "Você tá cansado de investir em marketing…" | Fundo escuro. "Você tá cansado de" em branco, palavra por palavra; **"investir em marketing"** em magenta | Bolinha do logo pinga no frame 0 e "abre" o texto. As palavras sobem com máscara no tempo da fala | — | impact @0, type sob o texto |
+| 2 | 4,5–10 | 2,3–5,0 | "…e sentir que sua marca não sai do lugar?" | 3 cards de painel à direita: Investimento R$ 1.258,00 / Alcance 1.432 / Curtidas 87 (**ilustrativos**, como no storyboard) com sparkline | Os cards caem em cascata nos beats. A linha tenta subir e "trava" num wobble em "não sai do lugar" | A linha estica e vira uma faixa horizontal | pop ×3, boing em "lugar" |
+| 3 | 10–18 | 5,0–9,0 | "De postar, anunciar e continuar sendo só mais um?" | Card de post cinza ("postar"), card "Patrocinado" ("anunciar"); depois uma fila infinita de cards iguais. **"só mais um?"** em magenta. *(Substitui a tartaruga do storyboard)* | Os cards entram nas palavras. Em "continuar sendo" a câmera recua (dolly-back em log) e mostra dezenas de cards idênticos | Whip vertical | click por card, whoosh na saída |
+| 4 | 18–23,5 | 9,0–11,75 | "O que falta não é conteúdo," | **Cena clara.** Feed com 12 cards cinzas (painel 03); "O que falta não é **conteúdo**," | Push lento. Em "conteúdo" um traço magenta risca a palavra | Os cards são empurrados para fora pelo título seguinte | tick, swell para o drop |
+| 5 | 23,5–26 | 11,75–13,0 | "…é estratégia." | **"É ESTRATÉGIA!"** em caixa alta com degradê, ocupando a largura toda | Slam com squash e o fundo vira escuro no beat 24 (o drop). O gráfico neon de barras e a seta sobem atrás | A seta continua subindo e puxa a câmera | **impact @24**, riser antes |
+| 6 | 26–28 | 13,0–14,0 | "E os resultados dos nossos clientes…" | Gráfico com 3 chips: PLANEJAMENTO / POSICIONAMENTO / RESULTADOS | Os chips entram um por beat | O título sobe para o topo | blip ×3 |
+| 7 | 28–36 | 14,0–18,0 | "…mostram isso. Olha só!" | **Prints reais**, um por beat: 04 CNH **687 mil**, 02 Oftalmo **224 mil**, 05 Mucugê **123 mil**\*, 01 Quadro **29,6 mil**, 07 Farmácia **27,8 mil**, 06 Lasanha **23,8 mil**, 03 Autoescola **10 mil**. Contador: **"+1,1 milhão de visualizações"** (soma real). "Olha só!" em magenta | Os cards entram num carrossel 3D em leque, cada um num beat, com a contagem de views pulsando. O contador rola até a soma | Os cards recuam e viram bolinhas | pop por card, coins no contador |
+| 8 | 34–37 | 17,0–18,5 | "Na Branding7, unimos…" | Símbolo (lâmpada) + logo horizontal branco | **Assinatura:** as bolinhas convergem e formam a lâmpada; o "Branding7" entra com máscara | A lâmpada sobe e vira o ícone do card do meio | bell no "Branding7" |
+| 9 | 37–43 | 18,5–21,5 | "…estratégia, criatividade e execução" | 3 cards neon (alvo / lâmpada / foguete) ligados por uma linha | Cada card acende na palavra falada (18,56 / 19,62 / 20,72). A linha percorre de um ao outro | Os cards viram 3 colunas da fila | blip pitched ×3 |
+| 10 | 43–48 | 21,5–24,0 | "…para fazer sua marca se destacar." | Fila de prints **dessaturados**; um (06 Lasanha ou 04 CNH) salta à frente **colorido** com borda em degradê. "se **destacar**" em magenta. Ecoa a cena 3 | Push-in no card destacado enquanto os outros desfocam | O card encolhe e vira o botão do CTA | whoosh + pop |
+| 11 | 48–56 | 24,0–28,0 | "Clique no link abaixo e fale com a Branding7." | Logo horizontal branco no topo; pílula em degradê **"CLIQUE NO LINK ABAIXO ↓"**; "e fale com a Branding7!" | O botão nasce do card. O cursor clica em "link" (24,56) com ripple e a seta quica em cada beat | Fica parado até o fim (mais de 3 s legível) | click @24,56, impact suave @48, crash de resolução @52 |
+
+\* Ver a pergunta sobre o print político em `../../docs/perguntas.md`.
+
+Maior intervalo sem evento novo: beats 18–23 (2,5 s, com push contínuo e risco em "conteúdo").

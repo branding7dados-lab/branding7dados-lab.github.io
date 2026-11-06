@@ -1,0 +1,37 @@
+{
+ "source": "/root/.claude/uploads/bab17388-7e08-54f1-8f45-6bdcfad185d9/f6ec9ac8-cendap_-_emotion_360p.mp4",
+ "duration": 50.623,
+ "threshold": 0.25,
+ "note": "hard cuts only; seamless transitions (match cuts, morphs, irises) are not counted",
+ "cuts": [
+  1.7,
+  3.2,
+  5.167,
+  7.933,
+  8.8,
+  17.2,
+  25,
+  25.8,
+  26.2,
+  26.733,
+  30.933
+ ],
+ "shots": [
+  1.7,
+  1.5,
+  1.967,
+  2.766,
+  0.867,
+  8.4,
+  7.8,
+  0.8,
+  0.4,
+  0.533,
+  4.2,
+  19.69
+ ],
+ "shot_count": 12,
+ "mean_shot_s": 4.219,
+ "median_shot_s": 1.967,
+ "cuts_per_10s": 2.17
+}
